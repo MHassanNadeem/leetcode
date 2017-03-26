@@ -18,6 +18,7 @@ public class RemoveNthFromEnd {
             p1 = p1.next;
         }
         
+        /* Move p2 to (L-n-1)th element */
         while(p1 != null){
             p1 = p1.next;
             p2 = p2.next;
