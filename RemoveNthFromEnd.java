@@ -8,26 +8,25 @@ import org.junit.Test;
 public class RemoveNthFromEnd {
     
     public static ListNode solve(ListNode head, int n){
-        int nodeArrayLen = n+1;
-        ListNode[] nodeArray = new ListNode[nodeArrayLen]; /* Circular list to keep last n+1 nodes */
-        int listLen = 0;
-        ListNode temp = head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
         
-        while(temp != null){
-            nodeArray[listLen++%(nodeArrayLen)] = temp;
-            temp = temp.next;
+        ListNode p1 = dummy, p2 = dummy;
+        
+        /* Move p1 to nth element */
+        for(int i=0; i<=n; i++){
+            p1 = p1.next;
         }
         
-        ListNode nodeToBeDeleted = nodeArray[(listLen+1)%nodeArrayLen];
-        ListNode prevNode = nodeArray[(listLen)%nodeArrayLen];
-
-        if( prevNode == null){
-            head = head.next;
-        }else{
-            prevNode.next = nodeToBeDeleted.next;
+        while(p1 != null){
+            p1 = p1.next;
+            p2 = p2.next;
         }
         
-        return head;
+        /* Delete (L-n)th element = p2.next */
+        p2.next = p2.next.next;
+        
+        return dummy.next;
     }
 
     
@@ -44,7 +43,6 @@ public class RemoveNthFromEnd {
         
         /* Delete single element list */
         test(new int[]{}, new int[]{0}, 1);
-        
         
         /* Leetcode failure case */
         test(new int[]{1,2,3,5,6,7,8,9,10}, new int[]{1,2,3,4,5,6,7,8,9,10}, 7);
