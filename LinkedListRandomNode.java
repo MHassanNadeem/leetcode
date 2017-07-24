@@ -69,10 +69,10 @@ public class LinkedListRandomNode {
     
     @Test
     public void test_getRandom(){
-        final double MAX_ERROR = 0.01;
-        final int NUM_EXPERIMENTS = 10000;
+        final int NUM_EXPERIMENTS = 1000000;
         final int LIST_SIZE = 15;
         final double IDEAL_PROB = (double)1/LIST_SIZE;
+        final double MAX_ERROR = IDEAL_PROB*0.05; /* 5% */
         int[] array = new int[LIST_SIZE];
         int[] freq  = new int[LIST_SIZE];
         double[] prob  = new double[LIST_SIZE];
