@@ -12,60 +12,35 @@ public class LinkedListRandomNode {
     
     public class Solution {
         ListNode head;
-        int len;
+        Random rand;
         
         /** @param head The linked list's head.
         Note that the head is guaranteed to be not null, so it contains at least one node. */
         public Solution(ListNode head) {
             this.head = head;
-            len = calculateListLength();
-        }
-        
-        public int getLength(){
-            return len;
-        }
-        
-        private int calculateListLength(){
-            ListNode t = head;
-            int len = 0;
-            
-            while(t != null){
-                len++;
-                t = t.next;
-            }
-            
-            return len;
-        }
-        
-        private int getRandomIndex(){
-            Random rand = new Random();
-            return rand.nextInt( len );
+            rand = new Random();
         }
         
         /** Returns a random node's value. */
         public int getRandom(){
+            ListNode selected = head;
             ListNode t = head;
-            int index = getRandomIndex();
+            int i = 0;
             
-            for(int i=0; i<index; i++){
+            while(t != null){
+                i++;
+                
+                if(rand.nextInt(i) == 0){ /* probability of 1/i */
+                    selected = t;
+                }
+                
                 t = t.next;
             }
             
-            return t.val;
+            return selected.val;
         }
     }
-    
-    public static void solve(int[] nums){
-        
-    }
 
-    
-    @Test
-    public void test_getLength(){
-        assertEquals(0, new Solution(ListNode.arrayToList(new int[]{})).getLength());
-        assertEquals(1, new Solution(ListNode.arrayToList(new int[]{1})).getLength());
-        assertEquals(3, new Solution(ListNode.arrayToList(new int[]{1,2,3})).getLength());
-    }
     
     @Test
     public void test_getRandom(){
