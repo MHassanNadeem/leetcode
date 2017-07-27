@@ -12,25 +12,16 @@ import java.util.Arrays;
 public class FractionAdditionSubtraction {
     
     public class Fraction{
-        boolean isNegative; int numerator; int denominator; int sign;
+        int numerator, denominator, sign;
         
         public Fraction(int sign, int numerator, int denominator){
             this.numerator   = sign*numerator;
             this.denominator = denominator;
         }
         
-        public Fraction(Fraction f2){
-            this(f2.sign, f2.numerator, f2.denominator);
-        }
-        
-        public String getString(){
-            StringBuilder s = new StringBuilder( 1+2+1+2 );
-
-            s.append(String.valueOf(numerator));
-            s.append('/');
-            s.append(String.valueOf(denominator));
-            
-            return s.toString();
+        @Override
+        public String toString(){
+            return String.valueOf(numerator) + "/" + String.valueOf(denominator);
         }
         
         public Fraction simplify(){
@@ -60,27 +51,25 @@ public class FractionAdditionSubtraction {
     }
     
     public String solve(String exp){
+        /* (([\+\-]{0,1})(\d+)\/(\d+)) */
         final String PATTERN = "(([\\+\\-]{0,1})(\\d+)\\/(\\d+))";
         final int GROUP_SIGN = 2;
         final int GROUP_NUMERATOR = 3;
         final int GROUP_DENOMINATOR = 4;
         final Pattern R = Pattern.compile(PATTERN);
         
-        int sign, numerator, denominator;
-        
         Matcher m = R.matcher(exp);
         
-        Fraction ans = new Fraction(1, 0, 1); // 0/1
+        Fraction ans = new Fraction(1, 0, 1); /* 0/1 = 0 */
         
         while(m.find()){
-            sign = m.group(GROUP_SIGN).equals("-")?-1:1;
-            numerator = Integer.parseInt(m.group(GROUP_NUMERATOR));
-            denominator = Integer.parseInt(m.group(GROUP_DENOMINATOR));
-            Fraction f2 = new Fraction(sign, numerator, denominator);
-            ans.add(f2);
+            int sign = m.group(GROUP_SIGN).equals("-")?-1:1;
+            int numerator = Integer.parseInt(m.group(GROUP_NUMERATOR));
+            int denominator = Integer.parseInt(m.group(GROUP_DENOMINATOR));
+            ans.add( new Fraction(sign, numerator, denominator) );
         }
 
-        return ans.simplify().getString();
+        return ans.simplify().toString();
     }
 
     
